@@ -10,6 +10,7 @@ import { Id } from '../../../convex/_generated/dataModel'
 import { Button } from '../ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useAppSelector } from '@/redux/store'
+import CreateProject from '../buttons/project'
 
 type TabProps = {
     label: string
@@ -103,7 +104,8 @@ const Navbar = () => {
                     </AvatarFallback>
                 </Avatar>
                 {/* {hasCanvas && <AutoSave />}
-                {!hasCanvas && !hasStyleGuide && <CreateProject />} */}
+                 */}
+                {!hasCanvas && !hasStyleGuide && <CreateProject />}
             </div>
         </div>
     )
