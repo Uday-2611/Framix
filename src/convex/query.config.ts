@@ -28,6 +28,45 @@ export const SubscriptionEntitlementQuery = async () => {
     return { entitlement, profileName: profile?.name }
 }
 
+export const ProjectsQuery = async () => {
+    const rawProfile = await ProfileQuery();
+    const profile = normalizeProfile(
+        rawProfile._valueJSON as unknown as ConvexUserRaw | null
+    )
+
+    if (!profile?.id) {
+        return { projects: null, profile: null }
+    }
+
+    const projects = await preloadQuery(
+        api.projects.getUserProjects,
+        { userId: profile.id as Id<'users'> },
+        { token: await convexAuthNextjsToken() }
+    )
+
+    return { projects, profile }
+}
+
+export const StyleGuideQuery = async (projectId: string) => {
+    const styleGuide = await preloadQuery(
+        api.projects.getProjectStyleGuide,
+        { projectId: projectId as Id<'projects'> },
+        { token: await convexAuthNextjsToken() }
+    )
+
+    return { styleGuide }
+}
+
+export const MoodBoardImagesQuery = async (projectId: string) => {
+    const images = await preloadQuery(
+        api.moodboard.getMoodBoardImages,
+        { projectId: projectId as Id<'projects'> },
+        { token: await convexAuthNextjsToken() }
+    )
+
+    return { images }
+}
+
 // TODO: In Convex we have queries and mutations. Query is a read only function that runs on convex's server and helps us fetch data from there database. Mutation is write function that changes data in the database.
 
 // TODO: Another feature in convex is preload query. We can load the data before the app even starts so the users get the data instantly. 
