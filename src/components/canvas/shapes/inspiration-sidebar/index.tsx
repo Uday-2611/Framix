@@ -183,7 +183,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
         const image = images.find((img) => img.id === imageId)
         if (!image) return
 
-        // If it's a servr image, remove from Convex -> 
+        // If it's a server image, remove from Convex -> 
         if (image.storageId && image.isFromServer && projectId) {
             try {
                 await removeInspirationImage({
@@ -310,8 +310,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
                         {images.length < 6 && (
                             <button
                                 onClick={() => fileInputRef.current?.click()}
-                                className='aspect-square rounded-l-2xl border-2 border-dashed border-white/20 bg-white/5 hover:border-white/40 hover:bg-white/10 transition-all duration-200 flex items-center justify-center group'
-                            >
+                                className='aspect-square rounded-lg border-2 border-dashed border-white/20 bg-white/5 hover:border-white/40 hover:bg-white/10 transition-all duration-200 flex items-center justify-center group'                            >
                                 <Plus className='w-6 h-6 text-white/40 group-hover:text-white/60' />
                             </button>
                         )}

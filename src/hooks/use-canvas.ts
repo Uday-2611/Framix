@@ -758,15 +758,15 @@ export const useInfiniteCanvas = () => {
 
         return () => {
             window.removeEventListener(
-                'shape-resie-start',
+                'shape-resize-start',
                 handleResizeStart as EventListener
             )
             window.removeEventListener(
-                'shape-resie-move',
+                'shape-resize-move',
                 handleResizeMove as EventListener
             )
             window.removeEventListener(
-                'shape-resie-end',
+                'shape-resize-end',
                 handleResizeEnd as EventListener
             )
         }
