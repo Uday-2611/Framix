@@ -1,9 +1,13 @@
+'use client'
+
 import { MoodBoardImage, useMoodBoard } from '@/hooks/use-styles'
 import { cn } from '@/lib/utils'
 import React, { useRef } from 'react'
 import ImageBoard from './images.board'
 import { Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useSearchParams } from 'next/navigation'
+import GenerateStyleGuideButton from '@/components/buttons/style-guide'
 
 type Props = {
     guideImages: MoodBoardImage[]
@@ -13,13 +17,16 @@ const MoodBoard = ({ guideImages }: Props) => {
 
     const { images, dragActive, removeImages, handleDrag, handleDrop, handleFileInput, canAddMore } = useMoodBoard(guideImages)
 
+    const searchParams = useSearchParams()
+    const projectId = searchParams.get('project')
+
     const fileInputRef = useRef<HTMLInputElement>(null)
     const handleUploadClick = () => {
         fileInputRef.current?.click()
     }
 
     return (
-        // TODO: Wire up drag active and handle eventsz
+
         <div className='flex flex-col gap-10'>
             <div className={cn('relative border-2 border-dashed rounded-3xl p-12 text-center transition-all duration-200 min-h-[500px]flex items-center justify-center', dragActive
                 ? 'border-primary bg-primary/5 scale-[1.02]'
@@ -138,10 +145,11 @@ const MoodBoard = ({ guideImages }: Props) => {
                 <input type="file" ref={fileInputRef} multiple accept='image/*' onChange={handleFileInput} className='hidden' />
             </div>
 
-            {/* TODO: Add AI generation -> */}
-            <Button className='w-fit'>
-                Generate With AI
-            </Button>
+            <GenerateStyleGuideButton
+                images={images}
+                fileInputRef={fileInputRef}
+                projectId={projectId ?? ''}
+            />
 
             {images.length >= 5 && (
                 <div className='text-center p-4 bg-muted/50 rounded-2xl'>
