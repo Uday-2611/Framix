@@ -9,7 +9,7 @@ type Props = {
     initialProjects: any
 }
 
-const ProjectsProvider = ({ children, initialProjects }: Props) => {
+const ProjectProvider = ({ children, initialProjects }: Props) => {
 
     const dispatch = useAppDispatch()
 
@@ -28,4 +28,4 @@ const ProjectsProvider = ({ children, initialProjects }: Props) => {
     return <>{children}</>
 }
 
-export default ProjectsProvider
+export default ProjectProvider

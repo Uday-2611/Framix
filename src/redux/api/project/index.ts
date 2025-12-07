@@ -26,7 +26,10 @@ export const projectApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: '/api/project' }),
     tagTypes: ['Project'],
     endpoints: (builder) => ({
-        autoSaveProject: builder.mutation<AutoSaveProjectResponse, AutoSaveProjectRequest>({
+        autoSaveProject: builder.mutation<
+            AutoSaveProjectResponse,
+            AutoSaveProjectRequest
+        >({
             query: (data) => ({
                 url: '',
                 method: 'PATCH',
@@ -35,3 +38,5 @@ export const projectApi = createApi({
         })
     })
 })
+
+export const { useAutoSaveProjectMutation } = projectApi

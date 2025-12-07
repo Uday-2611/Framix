@@ -22,7 +22,7 @@ const schema = defineSchema({
     metadata: v.optional(v.any()),
     creditsBalance: v.number(),
     creditsGrantPerPeriod: v.number(),
-    creditsRollOverLimit: v.number(),
+    creditsRolloverLimit: v.number(),
     lastGrantCursor: v.optional(v.string()),
   }).index('by_userId', ['userId'])
     .index('by_polarSubscriptionId', ['polarSubscriptionId'])
@@ -35,7 +35,7 @@ const schema = defineSchema({
     reason: v.optional(v.string()),
     idempotencyKey: v.optional(v.string()),
     meta: v.optional(v.any()),
-  }),
+  }).index('by_idempotencyKey', ['idempotencyKey']),
   projects: defineTable({
     userId: v.id('users'),
     name: v.string(),
@@ -58,7 +58,7 @@ const schema = defineSchema({
     userId: v.id('users'),
     nextProjectNumber: v.number(), // next available project number for this user
   }).index('by_userId', ['userId']),
-  
+
 });
 
 export default schema;
