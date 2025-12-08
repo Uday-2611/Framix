@@ -23,8 +23,6 @@ const ShapeRenderer = ({
     exportDesign: (generatedUIId: string, element: HTMLElement | null) => void;
 }) => {
 
-    //TODO: Add frame button
-    //TODO: Add generated UI
     switch (shape.type) {
         case 'frame':
             return (
