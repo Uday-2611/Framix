@@ -22,7 +22,7 @@ const AutoSave = () => {
 
     const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
 
-    const isReady = Boolean(projectId && user?.id)
+    const isReady = Boolean(projectId && projectId !== 'null' && user?.id)
 
     useEffect(() => {
         if (!isReady) return

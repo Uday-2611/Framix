@@ -9,19 +9,23 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'userId is required' }, { status: 400 });
     }
 
-    // Create new Polar Client -> 
-    const polar = new Polar({
-        server: process.env.POLAR_ENV === 'sandbox' ? 'sandbox' : 'production',
-        accessToken: process.env.POLAR_ACCESS_TOKEN
-    });
+    try {
+        const polar = new Polar({
+            server: process.env.POLAR_ENV === 'sandbox' ? 'sandbox' : 'production',
+            accessToken: process.env.POLAR_ACCESS_TOKEN
+        });
 
-    const session = await polar.checkouts.create({
-        products: [process.env.POLAR_STANDARD_PLAN!],
-        successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/billing/success`,
-        metadata: {
-            userId
-        }
-    })
+        const session = await polar.checkouts.create({
+            products: [process.env.POLAR_STANDARD_PLAN!],
+            successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/billing/success`,
+            metadata: {
+                userId
+            }
+        })
 
-    return NextResponse.json({ url: session.url })
+        return NextResponse.json({ url: session.url })
+    } catch (error) {
+        console.error('Polar Checkout Error:', error);
+        return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
+    }
 }

@@ -39,9 +39,11 @@ const Navbar = () => {
         },
     ]
 
+
+
     const project = useQuery(
         api.projects.getProject,
-        projectId ? { projectId: projectId as Id<'projects'> } : 'skip'
+        projectId && projectId !== 'null' ? { projectId: projectId as Id<'projects'> } : 'skip'
     )
 
     const hasCanvas = pathname.includes('canvas')

@@ -8,6 +8,7 @@ export const generateUploadUrl = mutation({
         if (!userId) {
             throw new Error('Not Authenticated')
         }
+        return await ctx.storage.generateUploadUrl()
     }
 })
 

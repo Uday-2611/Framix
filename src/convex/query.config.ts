@@ -51,7 +51,7 @@ export const ProjectQuery = async (projectId: string) => {
     const rawProfile = await ProfileQuery()
     const profile = normalizeProfile(rawProfile._valueJSON as unknown as ConvexUserRaw | null)
 
-    if (!profile?.id || !projectId) {
+    if (!profile?.id || !projectId || projectId === 'null') {
         return { project: null, profile: null }
     }
 
@@ -65,6 +65,9 @@ export const ProjectQuery = async (projectId: string) => {
 }
 
 export const StyleGuideQuery = async (projectId: string) => {
+    if (!projectId || projectId === 'null') {
+        return { styleGuide: null }
+    }
     const styleGuide = await preloadQuery(
         api.projects.getProjectStyleGuide,
         { projectId: projectId as Id<'projects'> },
@@ -75,6 +78,9 @@ export const StyleGuideQuery = async (projectId: string) => {
 }
 
 export const MoodBoardImagesQuery = async (projectId: string) => {
+    if (!projectId || projectId === 'null') {
+        return { images: null }
+    }
     const images = await preloadQuery(
         api.moodboard.getMoodBoardImages,
         { projectId: projectId as Id<'projects'> },

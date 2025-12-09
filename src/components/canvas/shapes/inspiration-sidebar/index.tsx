@@ -42,7 +42,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
 
     const existingImages = useQuery(
         api.inspiration.getInspirationImages,
-        projectId ? { projectId: projectId as Id<'projects'> } : 'skip'
+        projectId && projectId !== 'null' ? { projectId: projectId as Id<'projects'> } : 'skip'
     )
 
     // In newer versions we don't need to use useCallback
@@ -76,7 +76,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
                 const { storageId } = await result.json()
 
                 // Associate with project if we have a project ID -> 
-                if (projectId) {
+                if (projectId && projectId !== 'null') {
                     await addInspirationImage({
                         projectId: projectId as Id<'projects'>,
                         storageId: storageId as Id<'_storage'>
@@ -166,7 +166,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
         const imagesToRemove = images.filter((img) => img.storageId && img.isFromServer)
 
         for (const image of imagesToRemove) {
-            if (projectId && image.storageId) {
+            if (projectId && projectId !== 'null' && image.storageId) {
                 try {
                     await removeInspirationImage({
                         projectId: projectId as Id<'projects'>,
@@ -184,7 +184,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
         if (!image) return
 
         // If it's a servr image, remove from Convex -> 
-        if (image.storageId && image.isFromServer && projectId) {
+        if (image.storageId && image.isFromServer && projectId && projectId !== 'null') {
             try {
                 await removeInspirationImage({
                     projectId: projectId as Id<'projects'>,

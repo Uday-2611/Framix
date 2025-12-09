@@ -1,12 +1,11 @@
-import { ComsumeCreditsQuery, CreditsBalanceQuery, MoodBoardImagesQuery } from "@/convex/query.config";
+import { ComsumeCreditsQuery, CreditsBalanceQuery } from "@/convex/query.config";
 import { MoodBoardImage } from "@/hooks/use-styles";
 import { prompts } from "@/prompts";
-// import { StyleGuideSchema } from "@/prompts/generative";
-import { anthropic, gemini } from "inngest";
+import { google } from "@ai-sdk/google";
 import { NextRequest, NextResponse } from "next/server";
 import { generateObject } from 'ai';
 import z from "zod";
-import { fetchMutation } from "convex/nextjs";
+import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { api } from "../../../../../convex/_generated/api";
 import { Id } from "../../../../../convex/_generated/dataModel";
 import { convexAuthNextjsToken } from "@convex-dev/auth/nextjs/server";
@@ -74,7 +73,7 @@ export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
         const { projectId } = body
-        if (!projectId) {
+        if (!projectId || projectId === 'null') {
             return NextResponse.json(
                 { error: 'project ID is required' },
                 { status: 400 }
@@ -98,22 +97,26 @@ export async function POST(request: NextRequest) {
             )
         }
 
-        const moodBoardImages = await MoodBoardImagesQuery(projectId)
-        if (!moodBoardImages || moodBoardImages.images._valueJSON.length === 0) {
+        const images = await fetchQuery(
+            api.moodboard.getMoodBoardImages,
+            { projectId: projectId as Id<'projects'> },
+            { token: await convexAuthNextjsToken() }
+        );
+
+        if (!images || images.length === 0) {
             return NextResponse.json(
                 { error: 'No mood board images found. Please upload images to the mood board first' },
                 { status: 400 }
             )
         }
 
-        const images = moodBoardImages.images._valueJSON as unknown as MoodBoardImage[]
-        const imageUrls = images.map((img) => img.url).filter(Boolean)
+        const imageUrls = (images as unknown as MoodBoardImage[]).map((img) => img.url).filter(Boolean)
         const systemPrompt = prompts.styleGuide.system
 
         const userPrompt = `Analyze these ${imageUrls.length} mood board images and generate a design system: Extract colors that work harmoniously together and create typography that matches the aesthetic. Return ONLY the JSON object matching the exact schema structure above.`
 
         const result = await generateObject({
-            model: gemini('claude-sonnet-4-20250514'),
+            model: google('gemini-2.0-flash-exp'),
             schema: StyleGuideSchema,
             system: systemPrompt,
             messages: [
@@ -158,6 +161,7 @@ export async function POST(request: NextRequest) {
         })
 
     } catch (error) {
+        console.error("Style Generation Error:", error);
         return NextResponse.json(
             {
                 error: 'Failed to generate style guide',
@@ -167,10 +171,3 @@ export async function POST(request: NextRequest) {
         )
     }
 }
-
-// for claude -> 
-
-/*
-    npm i @ai-sdk/anthropic@2.0.6
-    generate api key and get credits
-*/

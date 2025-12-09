@@ -62,7 +62,7 @@ export const useMoodBoard = (guideImages: MoodBoardImage[]) => {
             const { storageId } = await result.json()
 
             // Associate with project if we have a project ID ->
-            if (projectId) {
+            if (projectId && projectId !== 'null') {
                 await addMoodBoardImage({
                     projectId: projectId as Id<'projects'>,
                     storageId: storageId as Id<'_storage'>,
@@ -259,7 +259,7 @@ export const useMoodBoard = (guideImages: MoodBoardImage[]) => {
         if (images.length > 0) {
             uploadPendingImages()
         }
-    }, [images, setValue, getValues])
+    }, [images, setValue, getValues, uploadImage])
 
     useEffect(() => {
         return () => {
@@ -267,7 +267,7 @@ export const useMoodBoard = (guideImages: MoodBoardImage[]) => {
                 URL.revokeObjectURL(image.preview)
             })
         }
-    }, [])
+    }, [images])
 
     return { form, images, dragActive, addImage, removeImages, handleDrag, handleDrop, handleFileInput, canAddMore: images.length < 5 }
 

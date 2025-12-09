@@ -56,7 +56,7 @@ const ProjectsList = () => {
                                 <div className='aspect-[4/3] rounded-lg overflow-hidden bg-muted'>
                                     {project.thumbnail ? (
                                         <Image
-                                            src={project.thumbnail()}
+                                            src={project.thumbnail}
                                             alt={project.name}
                                             width={300}
                                             height={200}

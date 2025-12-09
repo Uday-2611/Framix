@@ -1,6 +1,7 @@
 import { ComsumeCreditsQuery, CreditsBalanceQuery, InspirationImagesQuery, StyleGuideQuery } from "@/convex/query.config";
 import { prompts } from "@/prompts";
 import { streamText } from "ai";
+import { google } from "@ai-sdk/google";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
         userPrompt += `\n\nPlease generate a completely new HTML design based on my request while following the style guide, maintaining professional quality, and considering the wireframe context for layout understanding.`
 
         const result = streamText({
-            model: 'gpt-4o',
+            model: google('gemini-2.0-flash-exp'),
             messages: [{
                 role: 'user',
                 content: [
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
             system: prompts.generativeUi.system,
             temperature: 0.7
         })
-        //TODO: Change to Gemini-2.0-flash-exp
+
 
         const stream = new ReadableStream({
             async start(controller) {
