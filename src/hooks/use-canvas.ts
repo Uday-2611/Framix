@@ -773,8 +773,7 @@ export const useInfiniteCanvas = () => {
             )
         }
 
-    }, [dispatch, entityState.entities, viewport.translate, viewport.scale, onKeyDown, onKeyUp])
-
+    }, [dispatch, entityState.entities, viewport.translate, viewport.scale])
     const attachCanvasRef = (ref: HTMLDivElement | null): void => {
         // Clean up any existing event listeners on the old canvas
         if (canvasRef.current) {

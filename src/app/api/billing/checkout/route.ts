@@ -15,17 +15,20 @@ export async function GET(req: NextRequest) {
             accessToken: process.env.POLAR_ACCESS_TOKEN
         });
 
+        if (!process.env.POLAR_STANDARD_PLAN || !process.env.NEXT_PUBLIC_APP_URL) {
+            return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+        }
+
         const session = await polar.checkouts.create({
-            products: [process.env.POLAR_STANDARD_PLAN!],
+            products: [process.env.POLAR_STANDARD_PLAN],
             successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/billing/success`,
             metadata: {
                 userId
             }
         })
-
         return NextResponse.json({ url: session.url })
     } catch (error) {
-        console.error('Polar Checkout Error:', error);
+        console.error('Polar Checkout Error:', error instanceof Error ? error.message : 'Unknown error');
         return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
     }
 }
