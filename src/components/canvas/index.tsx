@@ -2,18 +2,18 @@
 
 import React from 'react'
 import { cn } from '@/lib/utils'
-import TextSidebar from './text-sidebar'
-import { useGlobalChat, useInfiniteCanvas, useInspiration } from '@/hooks/use-canvas'
 import ShapeRenderer from './shapes'
-import { RectanglePreview } from './shapes/rectangle/preview'
-import { FramePreview } from './shapes/frame/preview'
-import { ElipsePreview } from './shapes/elipse/preview'
-import { ArrowPreview } from './shapes/arrow/preview'
-import { LinePreview } from './shapes/line/preview'
-import { FreeDrawStrokePreview } from './shapes/stroke/preview'
-import { SelectionOverlay } from './shapes/selection'
-import InspirationSidebar from './shapes/inspiration-sidebar'
+import TextSidebar from './text-sidebar'
 import ChatWindow from './shapes/generatedui/chat'
+import { LinePreview } from './shapes/line/preview'
+import { SelectionOverlay } from './shapes/selection'
+import { FramePreview } from './shapes/frame/preview'
+import { ArrowPreview } from './shapes/arrow/preview'
+import { ElipsePreview } from './shapes/elipse/preview'
+import InspirationSidebar from './shapes/inspiration-sidebar'
+import { RectanglePreview } from './shapes/rectangle/preview'
+import { FreeDrawStrokePreview } from './shapes/stroke/preview'
+import { useGlobalChat, useInfiniteCanvas, useInspiration } from '@/hooks/use-canvas'
 
 const InfiniteCanvas = () => {
 
