@@ -34,11 +34,9 @@ import {
     wheelZoom
 } from "@/redux/slice/viewport"
 import { downloadBlob, exportGeneratedUIAsPNG, generateFrameSnapshot } from "@/lib/frame-snapshot"
-import { current, nanoid } from "@reduxjs/toolkit"
+import { nanoid } from "@reduxjs/toolkit"
 import { toast } from "sonner"
 import { useGenerateWorkflowMutation } from "@/redux/api/generation/"
-import GeneratedUI from "@/components/canvas/shapes/generatedui"
-import { initialize } from "next/dist/server/lib/render-server"
 import { addErrorMessage, addUserMessage, clearChat, finishStreamingResponse, initializeChat, startStreamingResponse, updateStreamingContent } from "@/redux/slice/chat"
 import { btoa } from "buffer"
 
@@ -776,7 +774,6 @@ export const useInfiniteCanvas = () => {
         }
 
     }, [dispatch, entityState.entities, viewport.translate, viewport.scale])
-
     const attachCanvasRef = (ref: HTMLDivElement | null): void => {
         // Clean up any existing event listeners on the old canvas
         if (canvasRef.current) {

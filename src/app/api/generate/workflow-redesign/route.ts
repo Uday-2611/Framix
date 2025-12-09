@@ -1,6 +1,8 @@
 import { ComsumeCreditsQuery, CreditsBalanceQuery, StyleGuideQuery } from "@/convex/query.config";
 import { prompts } from "@/prompts";
+
 import { streamText } from "ai";
+import { google } from "@ai-sdk/google";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -68,8 +70,10 @@ IMPORTANT:
 - DO apply the user's changes to that specific page
 
     colors: ${styleGuideData.colorSections
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((color: any) =>
                     color.swatches
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .map((swatch: any) => {
                             return `${swatch.name}: ${swatch.hexColor}, ${swatch.description}`;
                         })
@@ -77,8 +81,10 @@ IMPORTANT:
                 )
                 .join(", ")}
     typography: ${styleGuideData.typographySections
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((typography: any) =>
                     typography.styles
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .map((style: any) => {
                             return `${style.name}: ${style.description}, ${style.fontFamily}, ${style.fontWeight}, ${style.fontSize}, ${style.lineHeight}`;
                         })
@@ -91,7 +97,7 @@ Please generate the modified version of the provided workflow page HTML with the
         userPrompt += `\n\nPlease generate a professional redesigned workflow page that incorporates the requested changes while maintaining the core functionality and design consistency.`;
 
         const result = streamText({
-            model: 'gpt-4o',
+            model: google('gemini-2.0-flash-exp'),
             messages: [{
                 role: 'user',
                 content: [
@@ -104,7 +110,7 @@ Please generate the modified version of the provided workflow page HTML with the
             system: prompts.generativeUi.system,
             temperature: 0.7
         })
-        //TODO: Change to Gemini-2.0-flash-exp
+
 
         const stream = new ReadableStream({
             async start(controller) {

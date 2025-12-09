@@ -148,7 +148,7 @@ const MoodBoard = ({ guideImages }: Props) => {
             <GenerateStyleGuideButton
                 images={images}
                 fileInputRef={fileInputRef}
-                projectId={projectId ?? ''}
+                projectId={projectId && projectId !== 'null' ? projectId : ''}
             />
 
             {images.length >= 5 && (

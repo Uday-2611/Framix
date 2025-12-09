@@ -1,9 +1,8 @@
 import { CreditsBalanceQuery, ComsumeCreditsQuery, StyleGuideQuery, InspirationImagesQuery } from "@/convex/query.config";
 import { prompts } from "@/prompts";
 import { streamText } from "ai";
-import { gemini } from "inngest";
+import { google } from "@ai-sdk/google";
 import { NextRequest, NextResponse } from "next/server";
-import { ur } from "zod/v4/locales";
 
 export async function POST(request: NextRequest) {
     try {
@@ -88,8 +87,10 @@ For any required illustrative slots, use a public placeholder image (determinist
 
 On conflicts: the styleGuide always wins over image cues.
     colors: ${colors
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((color: any) =>
                     color.swatches
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .map((swatch: any) => {
                             return `${swatch.name}: ${swatch.hexColor}, ${swatch.description}`;
                         })
@@ -97,8 +98,10 @@ On conflicts: the styleGuide always wins over image cues.
                 )
                 .join(", ")}
     typography: ${typography
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((typography: any) =>
                     typography.styles
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         .map((style: any) => {
                             return `${style.name}: ${style.description}, ${style.fontFamily}, ${style.fontWeight}, ${style.fontSize}, ${style.lineHeight}`;
                         })
@@ -107,7 +110,7 @@ On conflicts: the styleGuide always wins over image cues.
                 .join(", ")}`
 
         const result = streamText({
-            model: gemini('claude-opus-4-20250514'),
+            model: google('gemini-2.0-flash-exp'),
             messages: [
                 {
                     role: 'user',
@@ -133,16 +136,8 @@ On conflicts: the styleGuide always wins over image cues.
 
         const stream = new ReadableStream({
             async start(controller) {
-                let totalChunks = 0
-                let totalLength = 0
-                let accumulatedContent = ''
-
                 try {
                     for await (const chunk of result.textStream) {
-                        totalChunks++;
-                        totalLength += chunk.length;
-                        accumulatedContent += totalChunks;
-
                         // Stream the HTML markup text
                         const encoder = new TextEncoder();
                         controller.enqueue(encoder.encode(chunk))

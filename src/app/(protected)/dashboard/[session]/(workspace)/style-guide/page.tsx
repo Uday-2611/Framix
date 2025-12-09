@@ -9,14 +9,14 @@ import { Palette } from 'lucide-react'
 import React from 'react'
 
 type Props = {
-    searcParams: Promise<{
+    searchParams: Promise<{
         project: string
     }>
 }
 
-const Page = async ({ searcParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
 
-    const projectId = (await searcParams).project
+    const projectId = (await searchParams).project
     const existingStyleGuide = await StyleGuideQuery(projectId)
 
     const guide = existingStyleGuide.styleGuide?._valueJSON as unknown as StyleGuide
@@ -25,7 +25,7 @@ const Page = async ({ searcParams }: Props) => {
     const typographyGuide = guide?.typographySections || []
 
     const existingMoodBoardImages = await MoodBoardImagesQuery(projectId)
-    const guideImages = existingMoodBoardImages.images._valueJSON as unknown as MoodBoardImage[]
+    const guideImages = existingMoodBoardImages.images?._valueJSON as unknown as MoodBoardImage[] || []
 
     return (
         <div>

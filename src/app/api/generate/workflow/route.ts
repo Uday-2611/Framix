@@ -1,5 +1,6 @@
 import { prompts } from "@/prompts";
 import { streamText } from "ai";
+import { google } from "@ai-sdk/google";
 import { NextRequest, NextResponse } from "next/server";
 import { ComsumeCreditsQuery, CreditsBalanceQuery, InspirationImagesQuery, StyleGuideQuery } from "@/convex/query.config";
 
@@ -142,7 +143,7 @@ Please generate a complete, professional HTML page that serves as a ${selectedPa
 
         // create streaming response for workflow page generation
         const result = streamText({
-            model: 'gpt-4o',
+            model: google('gemini-2.0-flash-exp'),
             messages: [{
                 role: 'user',
                 content: [
@@ -159,7 +160,7 @@ Please generate a complete, professional HTML page that serves as a ${selectedPa
             system: prompts.generativeUi.system,
             temperature: 0.7
         })
-        //TODO: Change to Gemini-2.0-flash-exp
+
 
         // Convert to streaming response
         const stream = new ReadableStream({

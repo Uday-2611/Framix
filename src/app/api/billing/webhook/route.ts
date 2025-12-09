@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks'
 import { isPolarWebhookEvent } from "@/types/polar";
 import type { PolarWebhookEvent } from "@/types/polar";
 import { inngest } from "@/inngest/client";
+import { validateEvent, WebhookVerificationError } from '@polar-sh/sdk/webhooks'
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
     const secret = process.env.POLAR_WEBHOOK_SECRET ?? ''

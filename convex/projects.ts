@@ -67,12 +67,12 @@ async function getNextProjectNumber(ctx: any, userId: string): Promise<number> {
     if (!counter) {
         await ctx.db.insert('project_counters', {
             userId,
-            getNextProjectNumber: 2
+            nextProjectNumber: 2
         })
         return 1
     }
 
-    const projectNumber = counter.getNextProjectNumber
+    const projectNumber = counter.nextProjectNumber
 
     // Increment counter for next time -> 
     await ctx.db.patch(counter._id, {
