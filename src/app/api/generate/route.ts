@@ -53,6 +53,13 @@ export async function POST(request: NextRequest) {
         const imageBuffer = await imageFile.arrayBuffer()
         const base64Image = Buffer.from(imageBuffer).toString('base64')
         const styleGuide = await StyleGuideQuery(projectId)
+        if (!styleGuide.styleGuide) {
+            return NextResponse.json(
+                { error: 'Style guide not found' },
+                { status: 404 }
+            )
+        }
+
         const guide = styleGuide.styleGuide._valueJSON as unknown as {
             colorSections: string[],
             typographySections: string[]

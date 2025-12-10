@@ -38,7 +38,8 @@ const Page = async ({ searchParams }: CanvasPageProps) => {
   }
 
   return (
-    <ProjectProvider initialProject={project}>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <ProjectProvider initialProject={project as any}>
       <InfiniteCanvas />
     </ProjectProvider>
   )

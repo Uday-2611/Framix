@@ -37,10 +37,10 @@ export async function POST(request: NextRequest) {
 
         // get projectID from request body for style guide
         const styleGuide = await StyleGuideQuery(projectId)
-        const styleGuideData = styleGuide.styleGuide._valueJSON as unknown as {
+        const styleGuideData = styleGuide.styleGuide ? (styleGuide.styleGuide._valueJSON as unknown as {
             colorSections: unknown[],
             typographySections: unknown[]
-        }
+        }) : null
 
         // get inspiration images
         const inspirationResult = await InspirationImagesQuery(projectId)
@@ -49,8 +49,8 @@ export async function POST(request: NextRequest) {
         }[]
         const imagesUrls = images.map((img) => img.url).filter(Boolean)
 
-        const colors = styleGuideData.colorSections || []
-        const typography = styleGuideData.typographySections || []
+        const colors = styleGuideData?.colorSections || []
+        const typography = styleGuideData?.typographySections || []
 
         // Define the page types for dynamic generation
         const pageTypes = [

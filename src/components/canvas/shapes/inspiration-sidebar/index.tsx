@@ -9,7 +9,6 @@ import { useSearchParams } from 'next/navigation'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { api } from '../../../../../convex/_generated/api'
 import { Id } from '../../../../../convex/_generated/dataModel'
-import { toast } from 'sonner'
 import Image from 'next/image'
 
 type InspirationSidebarProps = {
@@ -28,7 +27,7 @@ type Props = {
     isFromServer?: boolean
 }
 
-const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
+const InspirationSidebar = ({ onClose }: InspirationSidebarProps) => {
 
     const [images, setImages] = useState<Props[]>([])
     const [dragActive, setDragActive] = useState(false)
@@ -120,7 +119,7 @@ const InspirationSidebar = ({ isOpen, onClose }: InspirationSidebarProps) => {
                             uploading: false,
                             isFromServer: true
                         } : img))
-                } catch (error) {
+                } catch {
                     setImages((prev) => prev.map((img) =>
                         img.id === image.id
                             ? { ...img, uploading: false, error: 'Upload failed' }

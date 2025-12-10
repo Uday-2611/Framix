@@ -8,6 +8,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+interface Project {
+    _id: string
+    name: string
+    thumbnail?: string
+    lastModified: string | number | Date
+}
+
 const ProjectsList = () => {
 
     const { projects, canCreate } = useProjectCreation()
@@ -46,7 +53,7 @@ const ProjectsList = () => {
                 </div>
             ) : (
                 <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6'>
-                    {projects.map((project: any) => (
+                    {projects.map((project: Project) => (
                         <Link
                             key={project._id}
                             href={`/dashboard/${user?.name}/canvas?project=${project._id}`}

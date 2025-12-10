@@ -36,11 +36,20 @@ export const ColorTheme = ({ title, swatches, className }: Props) => {
     )
 }
 
-const ThemeContent = ({ colorGuide }: { colorGuide: any[] }) => {
+interface ColorGuideSection {
+    title: string
+    swatches: Array<{
+        name: string
+        hexColor: string
+        description?: string
+    }>
+}
+
+const ThemeContent = ({ colorGuide }: { colorGuide: ColorGuideSection[] }) => {
     return (
         <div className='flex flex-col gap-10'>
             <div className='flex flex-col gap-10'>
-                {colorGuide.map((section: any, index: number) => (
+                {colorGuide.map((section: ColorGuideSection, index: number) => (
                     <ColorTheme
                         key={index}
                         title={section.title}

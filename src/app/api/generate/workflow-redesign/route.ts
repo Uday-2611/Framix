@@ -34,6 +34,14 @@ export async function POST(request: NextRequest) {
         }
 
         const styleGuide = await StyleGuideQuery(projectId)
+
+        if (!styleGuide.styleGuide) {
+            return NextResponse.json(
+                { error: 'Style guide not found' },
+                { status: 404 }
+            )
+        }
+
         const styleGuideData = styleGuide.styleGuide._valueJSON as unknown as {
             colorSections: unknown[],
             typographySections: unknown[]

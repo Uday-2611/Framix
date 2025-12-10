@@ -1,11 +1,29 @@
 'use client'
 
-import { loadProject } from '@/redux/slice/shapes';
-import { restoreViewport } from '@/redux/slice/viewport';
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-
-type Props = { children: React.ReactNode; initialProject: any }
+import { loadProject } from '@/redux/slice/shapes';
+import { restoreViewport } from '@/redux/slice/viewport';
+import { EntityState } from '@reduxjs/toolkit';
+import { Shape, Tool } from "@/redux/slice/shapes";
+import { Point } from "@/redux/slice/viewport";
+type Props = {
+    children: React.ReactNode;
+    initialProject: {
+        _valueJSON: {
+            sketchesData: {
+                shapes: EntityState<Shape, string>;
+                tool: Tool;
+                selected: Record<string, true>;
+                frameCounter: number;
+            };
+            viewportData?: {
+                scale: number;
+                translate: Point;
+            }
+        }
+    } | null
+}
 
 const ProjectProvider = ({ children, initialProject }: Props) => {
 

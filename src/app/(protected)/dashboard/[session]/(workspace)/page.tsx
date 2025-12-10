@@ -20,11 +20,14 @@ const Page = async () => {
         )
     }
 
-    return <ProjectsProvider initialProjects={projects}>
-        <div className='container mx-auto py-36'>
-            <ProjectsList />
-        </div>
-    </ProjectsProvider>
+    return (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        <ProjectsProvider initialProjects={projects as any}>
+            <div className='container mx-auto py-36'>
+                <ProjectsList />
+            </div>
+        </ProjectsProvider>
+    )
 }
 
 export default Page

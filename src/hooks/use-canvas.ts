@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { freemem } from "os"
 import { useDispatch } from "react-redux"
 import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store"
@@ -195,7 +195,7 @@ export const useInfiniteCanvas = () => {
                     point.x >= shape.x - 2 &&
                     point.x <= shape.x + textWidth + padding + 2 &&
                     point.y >= shape.y - 2 &&
-                    point.y <= shape.y + textWidth + padding + 2
+                    point.y <= shape.y + textHeight + padding + 2
                 )
             default:
                 return false
@@ -262,7 +262,7 @@ export const useInfiniteCanvas = () => {
         } else {
             const dx = e.shiftKey ? e.deltaY : e.deltaX
             const dy = e.shiftKey ? 0 : e.deltaY
-            dispatch(wheelPan({ dx: 0, dy: e.deltaY }))
+            dispatch(wheelPan({ dx, dy }))
         }
     }
 
@@ -561,21 +561,21 @@ export const useInfiniteCanvas = () => {
         onPointerUp(e)
     }
 
-    const onKeyDown = (e: KeyboardEvent): void => {
+    const onKeyDown = useCallback((e: KeyboardEvent): void => {
         if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && !e.repeat) {
             e.preventDefault()
             isSpacePressesd.current = true
             dispatch(handToolEnable())
         }
-    }
+    }, [dispatch])
 
-    const onKeyUp = (e: KeyboardEvent): void => {
+    const onKeyUp = useCallback((e: KeyboardEvent): void => {
         if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
             e.preventDefault()
             isSpacePressesd.current = false
             dispatch(handToolDisable())
         }
-    }
+    }, [dispatch])
 
     useEffect(() => {
         document.addEventListener('keydown', onKeyDown)
@@ -587,7 +587,7 @@ export const useInfiniteCanvas = () => {
             if (freehandRafRef.current) window.cancelAnimationFrame(freehandRafRef.current)
             if (panRafRef.current) window.cancelAnimationFrame(panRafRef.current)
         }
-    }, [])
+    }, [onKeyDown, onKeyUp])
 
     useEffect(() => {
         const handleResizeStart = (e: CustomEvent) => {
@@ -618,7 +618,7 @@ export const useInfiniteCanvas = () => {
                 viewport.scale
             )
 
-            const shape = entityState.entites[shapeId]
+            const shape = entityState.entities[shapeId]
             if (!shape) return
 
             const newBounds = { ...initialBounds }

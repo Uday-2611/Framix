@@ -83,6 +83,7 @@ export const useProjectCreation = () => {
         } catch (error) {
             dispatch(createProjectFailure('Failed to create project'))
             toast.error('Failed to create project')
+            console.error(error)
         }
     }
 

@@ -43,7 +43,7 @@ const TextSidebar = ({ isOpen }: Props) => {
         }
     }, [selectedTextShape?.fill])
 
-    const updateTextProperty = (property: keyof TextShape, value: any) => {
+    const updateTextProperty = (property: keyof TextShape, value: string | number) => {
         if (!selectedTextShape) return
 
         dispatch(updateShape({

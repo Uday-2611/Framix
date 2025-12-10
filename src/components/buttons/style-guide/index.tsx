@@ -6,7 +6,7 @@ import { Loader2, Sparkles } from 'lucide-react'
 import React from 'react'
 
 type Props = {
-    images: any[]
+    images: { id: string; preview: string; uploaded: boolean; uploading: boolean }[]
     fileInputRef: React.RefObject<HTMLInputElement | null>
     projectId: string
 }

@@ -50,9 +50,9 @@ const Page = async ({ searchParams }: Props) => {
                 )}
             </TabsContent>
 
-
             <TabsContent value='typography'>
-                <StyleGuideTypography typographyGuide={typographyGuide} />
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <StyleGuideTypography typographyGuide={typographyGuide as any} />
             </TabsContent>
             {/* TODO: Do this yourself */}
 

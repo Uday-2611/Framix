@@ -2,7 +2,7 @@
 
 import { useMutation } from "convex/react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { RefObject, useEffect, useRef, useState } from "react"
+import { RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { api } from "../../convex/_generated/api"
 import { toast } from "sonner"
@@ -45,7 +45,7 @@ export const useMoodBoard = (guideImages: MoodBoardImage[]) => {
     const removeMoodBoardImage = useMutation(api.moodboard.removeMoodBoardImage)
     const addMoodBoardImage = useMutation(api.moodboard.addMoodBoardImage)
 
-    const uploadImage = async (file: File): Promise<{ storageId: string; url?: string }> => {
+    const uploadImage = useCallback(async (file: File): Promise<{ storageId: string; url?: string }> => {
         try {
             const uploadUrl = await generateUploadUrl()
 
@@ -74,13 +74,13 @@ export const useMoodBoard = (guideImages: MoodBoardImage[]) => {
             console.error(error)
             throw error
         }
-    }
+    }, [generateUploadUrl, addMoodBoardImage, projectId])
 
     useEffect(() => {
         if (guideImages && guideImages.length > 0) {
-            const serverImages: MoodBoardImage[] = guideImages.map((img: any) => ({
+            const serverImages: MoodBoardImage[] = guideImages.map((img) => ({
                 id: img.id,
-                preview: img.url,
+                preview: img.url || '',
                 storageId: img.storageId,
                 uploaded: true,
                 uploading: false,

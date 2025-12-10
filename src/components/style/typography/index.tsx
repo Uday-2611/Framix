@@ -1,8 +1,23 @@
 import { Type } from 'lucide-react'
 import React from 'react'
 
+interface TypographyStyle {
+    name: string
+    description?: string
+    fontFamily: string
+    fontSize: string
+    fontWeight: string
+    lineHeight: string
+    letterSpacing?: string
+}
+
+interface TypographySection {
+    title: string
+    styles: TypographyStyle[]
+}
+
 type Props = {
-    typographyGuide: any
+    typographyGuide: TypographySection[]
 }
 
 const StyleGuideTypography = ({ typographyGuide }: Props) => {
@@ -18,14 +33,14 @@ const StyleGuideTypography = ({ typographyGuide }: Props) => {
                 </div>
             ) : (
                 <div className='flex flex-col gap-10'>
-                    {typographyGuide.map((section: any, index: number) => (
+                    {typographyGuide.map((section: TypographySection, index: number) => (
                         <div key={index} className='flex flex-col gap-5'>
                             <h3 className='text-lg font-medium text-foreground/50'>
                                 {section.title}
                             </h3>
 
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                                {section.map((style: any, styleIndex: number) => (
+                                {section.styles.map((style: TypographyStyle, styleIndex: number) => (
                                     <div key={styleIndex} className='p-6 rounded-2xl backdrop-blur-xl bg-white/[0.02] border border-white/[0.08] saturate-150'>
                                         <div className='space-y-4'>
                                             <h4 className='text-sm font-medium text-foreground/50'>{style.name}</h4>

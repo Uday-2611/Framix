@@ -66,6 +66,7 @@ const AutoSave = () => {
 
     useEffect(() => {
         return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             if (abortRef.current) abortRef.current.abort()
             if (debounceRef.current) clearTimeout(debounceRef.current)
         }
