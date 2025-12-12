@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Palette, Zap, Layout, ArrowRight, Star, Quote } from "lucide-react";
+import { Palette, Zap, Layout, ArrowRight, Quote } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -179,7 +179,7 @@ function TestimonialCard({ name, role, quote }: { name: string, role: string, qu
     <Card className="h-full bg-background/50 backdrop-blur border-border/50">
       <CardContent className="pt-6 flex flex-col gap-4 h-full">
         <Quote className="h-8 w-8 text-primary/40" />
-        <p className="text-lg italic text-muted-foreground flex-1">"{quote}"</p>
+        <p className="text-lg italic text-muted-foreground flex-1">&quot;{quote}&quot;</p>
         <div className="flex items-center gap-3 mt-auto">
           <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center text-white font-bold">
             {name[0]}
