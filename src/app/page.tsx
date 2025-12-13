@@ -4,8 +4,54 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Palette, Zap, Layout, Quote, Globe, Shield, ArrowRight } from "lucide-react";
+import { Palette, Zap, Layout, Quote, Globe, Shield } from "lucide-react";
+import { RiLinkedinFill, RiGithubFill, RiInstagramFill } from "@remixicon/react";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+const testimonials = [
+  {
+    name: "Alex Chen",
+    role: "Product Designer @ Vercel",
+    quote: "Framix has completely revolutionized my workflow. I can explore ideas 10x faster than before.",
+    delay: 0,
+    avatar: "/vercel.jpg"
+  },
+  {
+    name: "Sarah Jones",
+    role: "Illustrator @ Adobe",
+    quote: "The AI suggestions are surprisingly accurate. It feels like a true creative partner that understands style.",
+    delay: 0.1,
+    avatar: "/adobe.png"
+  },
+  {
+    name: "Mike Ross",
+    role: "Art Director @ Stripe",
+    quote: "Finally, a tool that understands design intent. The infinite canvas is a game changer for big projects.",
+    delay: 0.2,
+    avatar: "/stripe.jpeg"
+  },
+  {
+    name: "Emma Davis",
+    role: "UX Researcher @ Spotify",
+    quote: "The speed at which I can iterate on different concepts is unmatched. It's a game changer.",
+    delay: 0.3,
+    avatar: "/spotify.jpg"
+  },
+  {
+    name: "David Kim",
+    role: "Frontend Dev @ Airbnb",
+    quote: "From design to code, the transition is seamless. A must-have for modern teams.",
+    delay: 0.4,
+    avatar: "/airbnb.jpg"
+  },
+  {
+    name: "Lisa Wang",
+    role: "Product Manager @ Netflix",
+    quote: "It helps our team visualize complex user flows in minutes. Highly recommended.",
+    delay: 0.5,
+    avatar: "/netflix.jpg"
+  }
+];
 
 export default function Home() {
   const { scrollYProgress } = useScroll();
@@ -112,7 +158,7 @@ export default function Home() {
         <section id="features" className="py-32 relative">
           <div className="container mx-auto px-4">
             <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
                 Everything you need to build faster.
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -220,32 +266,47 @@ export default function Home() {
         <section id="testimonials" className="py-32 bg-neutral-900/20">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-16 text-center">Loved by Designers</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              <TestimonialCard
-                name="Alex Chen"
-                role="Product Designer @ Vercel"
-                quote="Framix has completely revolutionized my workflow. I can explore ideas 10x faster than before."
-                delay={0}
-              />
-              <TestimonialCard
-                name="Sarah Jones"
-                role="Illustrator @ Adobe"
-                quote="The AI suggestions are surprisingly accurate. It feels like a true creative partner that understands style."
-                delay={0.1}
-              />
-              <TestimonialCard
-                name="Mike Ross"
-                role="Art Director @ Stripe"
-                quote="Finally, a tool that understands design intent. The infinite canvas is a game changer for big projects."
-                delay={0.2}
-              />
+            <div className="relative flex w-full flex-col items-center justify-center overflow-hidden antialiased">
+              <div className="group flex overflow-hidden p-2 [--gap:2rem] [gap:var(--gap)] flex-row w-full max-w-full [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]">
+                <motion.div
+                  initial={{ x: 0 }}
+                  animate={{ x: "calc(-100% - var(--gap))" }}
+                  transition={{
+                    duration: 40,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="flex shrink-0 flex-row justify-around [gap:var(--gap)]"
+                >
+                  {testimonials.map((testimonial, i) => (
+                    <div key={i} className="w-[350px] max-w-full flex-none">
+                      <TestimonialCard {...testimonial} />
+                    </div>
+                  ))}
+                </motion.div>
+                <motion.div
+                  initial={{ x: 0 }}
+                  animate={{ x: "calc(-100% - var(--gap))" }}
+                  transition={{
+                    duration: 40,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="flex shrink-0 flex-row justify-around [gap:var(--gap)]"
+                >
+                  {testimonials.map((testimonial, i) => (
+                    <div key={`clone-${i}`} className="w-[350px] max-w-full flex-none">
+                      <TestimonialCard {...testimonial} />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
         <section className="py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5"></div>
           <div className="container mx-auto px-4 text-center relative z-10">
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8">
               Ready to create the <br /> <span className="text-primary">impossible?</span>
@@ -255,27 +316,44 @@ export default function Home() {
             </p>
             <Link href="/auth/sign-up">
               <Button size="lg" className="text-lg h-14 px-10 bg-white text-black hover:bg-white/90 shadow-lg shadow-white/10 transition-all">
-                Get Started for Free  
+                Get Started for Free
               </Button>
             </Link>
           </div>
-        </section>  
+        </section>
       </main>
 
       {/* Footer */}
-      <footer className=" bg-black pt-20 pb-10">
+      <footer className=" bg-black pt-20 pb-10 p-10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
-            <div className="col-span-2 md:col-span-1">
-              <span className="text-2xl font-bold tracking-tighter text-white mb-6 block">Framix</span>
-              <p className="text-muted-foreground text-sm mb-6">
+            <div className="col-span-2 md:col-span-2">
+              <div className="flex justify-start gap-1 py-2">
+                <Image
+                  src="/framix logo.png"
+                  alt="Framix Logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+                <span className="text-3xl font-extrabold tracking-tighter text-white">
+                  Framix
+                </span>
+              </div>
+              <p className="text-muted-foreground text-sm mb-6 px-1">
                 Empowering creators with AI-driven design tools. Build faster, better, and more creatively.
               </p>
               <div className="flex gap-4">
-                {/* Social Icons Placeholders */}
-                <div className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors"></div>
-                <div className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors"></div>
-                <div className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/20 transition-colors"></div>
+                {/* Social Icons */}
+                <Link href="https://www.linkedin.com/in/udayagarwal2611/" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center">
+                  <RiLinkedinFill className="h-6 w-6 text-white transition-colors" />
+                </Link>
+                <Link href="https://github.com/Uday-2611" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center">
+                  <RiGithubFill className="h-6 w-6 text-white transition-colors" />
+                </Link>
+                <Link href="https://www.instagram.com/udayy2604/" target="_blank" rel="noopener noreferrer" className="h-8 w-8 flex items-center justify-center">
+                  <RiInstagramFill className="h-6 w-6 text-white transition-colors" />
+                </Link>
               </div>
             </div>
 
@@ -299,18 +377,10 @@ export default function Home() {
               </ul>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-white mb-6">Legal</h4>
-              <ul className="space-y-4 text-sm text-muted-foreground">
-                <li><Link href="#" className="hover:text-white transition-colors">Privacy</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Terms</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Security</Link></li>
-              </ul>
-            </div>
           </div>
 
           <div className=" pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <span className="text-sm text-muted-foreground">© 2024 Framix Inc. All rights reserved.</span>
+            <span className="text-sm text-muted-foreground">© 2025 Framix Inc.</span>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <div className="h-2 w-2 rounded-full bg-green-500"></div>
               All systems operational
@@ -322,7 +392,7 @@ export default function Home() {
   );
 }
 
-function TestimonialCard({ name, role, quote, delay }: { name: string, role: string, quote: string, delay: number }) {
+function TestimonialCard({ name, role, quote, delay, avatar }: { name: string, role: string, quote: string, delay: number, avatar: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -336,8 +406,13 @@ function TestimonialCard({ name, role, quote, delay }: { name: string, role: str
           <Quote className="h-8 w-8 text-white/20" />
           <p className="text-lg text-white/80 leading-relaxed flex-1">&quot;{quote}&quot;</p>
           <div className="flex items-center gap-4 mt-auto  pt-6">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-white/20 to-white/5 flex items-center justify-center text-white font-bold ">
-              {name[0]}
+            <div className="relative h-10 w-10 overflow-hidden rounded-full">
+              <Image
+                src={avatar}
+                alt={name}
+                fill
+                className="object-cover"
+              />
             </div>
             <div>
               <p className="font-semibold text-white">{name}</p>

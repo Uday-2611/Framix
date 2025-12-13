@@ -24,16 +24,12 @@ export default function LoginPage() {
             <div className="flex items-center justify-center py-12">
                 <div className="mx-auto grid w-[350px] gap-6">
                     <div className="grid gap-2 text-center">
-                        <div className="flex justify-center mb-4">
+                        <div className="flex justify-center">
                             {/* Optional: Add Logo here if needed, or keep it minimal as per reference */}
-                            <span className="text-2xl font-bold">Framix</span>
+                            <span className="text-4xl font-bold">Framix</span>
                         </div>
-                        <h1 className="text-3xl font-bold">Welcome to Framix</h1>
-                        <p className="text-balance text-muted-foreground">
-                            Your AI agent for work
-                        </p>
                         <p className="text-sm text-muted-foreground mt-2">
-                            Sign in or sign up for free <br /> with your work email
+                            Sign in or sign up for free with your work email
                         </p>
                     </div>
                     <div className="grid gap-4">
@@ -56,7 +52,7 @@ export default function LoginPage() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="name@work-email.com"
+                                    placeholder="Enter your email"
                                     {...register('email')}
                                     className={errors.email ? 'border-destructive' : ''}
                                 />
@@ -84,7 +80,7 @@ export default function LoginPage() {
                                 <div className="flex items-center justify-end">
                                     <Link
                                         href="#"
-                                        className="ml-auto inline-block text-sm underline"
+                                        className="ml-auto inline-block text-sm text-muted-foreground"
                                     >
                                         Forgot your password?
                                     </Link>
@@ -104,42 +100,27 @@ export default function LoginPage() {
                                         Signing In...
                                     </>
                                 ) : (
-                                    'Enter your work email'
+                                    'Sign In'
                                 )}
                             </Button>
                         </form>
                     </div>
-                    <div className="mt-4 text-center text-sm">
+                    <div className="mt-4 text-center text-sm text-muted-foreground">
                         Don&apos;t have an account?{" "}
-                        <Link href="/auth/sign-up" className="underline">
+                        <Link href="/auth/sign-up" className="hover:text-primary">
                             Create an account
                         </Link>
                     </div>
-                    <p className="px-8 text-center text-sm text-muted-foreground">
-                        By clicking continue, you agree to our{" "}
-                        <Link
-                            href="/terms"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Terms of Service
-                        </Link>{" "}
-                        and{" "}
-                        <Link
-                            href="/privacy"
-                            className="underline underline-offset-4 hover:text-primary"
-                        >
-                            Privacy Policy
-                        </Link>
-                        .
-                    </p>
                 </div>
             </div>
             <div className="hidden bg-muted lg:block relative overflow-hidden">
-                {/* Placeholder for the right side image - using a dark gradient/abstract background for now to match the 'dark' aesthetic */}
-                <div className="absolute inset-0 bg-zinc-900 flex items-center justify-center">
-                    <div className="text-zinc-700 font-bold text-4xl">Product Screenshot</div>
-                    {/* If we had the image asset, we would use <Image src="..." ... /> here */}
-                </div>
+                <Image
+                    src="/auth.jpeg"
+                    alt="Product Screenshot"
+                    fill
+                    className="object-cover"
+                    priority
+                />
             </div>
         </div>
     )

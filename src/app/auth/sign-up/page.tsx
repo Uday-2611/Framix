@@ -15,9 +15,8 @@ export default function SignUpPage() {
                     <div className="grid gap-2 text-center">
                         <div className="flex justify-center mb-4">
                             {/* Optional: Add Logo here if needed */}
-                            <span className="text-2xl font-bold">Framix</span>
+                            <span className="text-4xl font-bold">Framix</span>
                         </div>
-                        <h1 className="text-3xl font-bold">Create an Account</h1>
                         <p className="text-balance text-muted-foreground">
                             Enter your information to create an account
                         </p>
@@ -52,32 +51,35 @@ export default function SignUpPage() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="m@example.com"
+                                    placeholder="Enter a valid email"
                                     required
                                 />
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" required />
+                                <Input id="password" type="password" placeholder="Enter a strong password" required />
                             </div>
                             <Button type="submit" className="w-full">
                                 Create an account
                             </Button>
                         </form>
                     </div>
-                    <div className="mt-4 text-center text-sm">
+                    <div className="mt-4 text-center text-sm text-muted-foreground">
                         Already have an account?{" "}
-                        <Link href="/auth/sign-in" className="underline">
+                        <Link href="/auth/sign-in" className="hover:text-primary">
                             Sign in
                         </Link>
                     </div>
                 </div>
             </div>
             <div className="hidden bg-muted lg:block relative overflow-hidden">
-                {/* Placeholder for the right side image */}
-                <div className="absolute inset-0 bg-zinc-900 flex items-center justify-center">
-                    <div className="text-zinc-700 font-bold text-4xl">Product Screenshot</div>
-                </div>
+                <Image
+                    src="/auth.jpeg"
+                    alt="Product Screenshot"
+                    fill
+                    className="object-cover"
+                    priority
+                />
             </div>
         </div>
     )
