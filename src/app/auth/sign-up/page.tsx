@@ -7,7 +7,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Google from '@/components/buttons/oauth/google'
 
+import { useAuth } from '@/hooks/use-auth'
+
 export default function SignUpPage() {
+    const { signUpForm, handleSignUp, isLoading } = useAuth()
     return (
         <div className="w-full lg:grid lg:min-h-screen lg:grid-cols-2 xl:min-h-[800px]">
             <div className="flex items-center justify-center py-12">
@@ -35,15 +38,35 @@ export default function SignUpPage() {
                             </div>
                         </div>
 
-                        <form className="grid gap-4">
+                        <form onSubmit={signUpForm.handleSubmit(handleSignUp)} className="grid gap-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="grid gap-2">
                                     <Label htmlFor="first-name">First name</Label>
-                                    <Input id="first-name" placeholder="Max" required />
+                                    <Input
+                                        id="first-name"
+                                        placeholder="Max"
+                                        {...signUpForm.register('firstName')}
+                                        className={signUpForm.formState.errors.firstName ? 'border-destructive' : ''}
+                                    />
+                                    {signUpForm.formState.errors.firstName && (
+                                        <p className='text-xs text-destructive'>
+                                            {signUpForm.formState.errors.firstName.message}
+                                        </p>
+                                    )}
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="last-name">Last name</Label>
-                                    <Input id="last-name" placeholder="Robinson" required />
+                                    <Input
+                                        id="last-name"
+                                        placeholder="Robinson"
+                                        {...signUpForm.register('lastName')}
+                                        className={signUpForm.formState.errors.lastName ? 'border-destructive' : ''}
+                                    />
+                                    {signUpForm.formState.errors.lastName && (
+                                        <p className='text-xs text-destructive'>
+                                            {signUpForm.formState.errors.lastName.message}
+                                        </p>
+                                    )}
                                 </div>
                             </div>
                             <div className="grid gap-2">
@@ -52,15 +75,39 @@ export default function SignUpPage() {
                                     id="email"
                                     type="email"
                                     placeholder="Enter a valid email"
-                                    required
+                                    {...signUpForm.register('email')}
+                                    className={signUpForm.formState.errors.email ? 'border-destructive' : ''}
                                 />
+                                {signUpForm.formState.errors.email && (
+                                    <p className='text-xs text-destructive'>
+                                        {signUpForm.formState.errors.email.message}
+                                    </p>
+                                )}
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" placeholder="Enter a strong password" required />
+                                <Input
+                                    id="password"
+                                    type="password"
+                                    placeholder="Enter a strong password"
+                                    {...signUpForm.register('password')}
+                                    className={signUpForm.formState.errors.password ? 'border-destructive' : ''}
+                                />
+                                {signUpForm.formState.errors.password && (
+                                    <p className='text-xs text-destructive'>
+                                        {signUpForm.formState.errors.password.message}
+                                    </p>
+                                )}
                             </div>
-                            <Button type="submit" className="w-full">
-                                Create an account
+
+                            {signUpForm.formState.errors.root && (
+                                <p className='text-xs text-destructive text-center'>
+                                    {signUpForm.formState.errors.root.message}
+                                </p>
+                            )}
+
+                            <Button type="submit" className="w-full" disabled={isLoading}>
+                                {isLoading ? 'Creating account...' : 'Create an account'}
                             </Button>
                         </form>
                     </div>

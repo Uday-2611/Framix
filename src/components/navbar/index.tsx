@@ -4,14 +4,14 @@ import React from 'react'
 import Link from 'next/link'
 import { useQuery } from 'convex/react'
 import { api } from '../../../convex/_generated/api'
-import { CircleQuestionMark, Hash, LayoutTemplate, User } from 'lucide-react'
+import { LayoutTemplate, Pen, User } from 'lucide-react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Id } from '../../../convex/_generated/dataModel'
-import { Button } from '../ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useAppSelector } from '@/redux/store'
 import CreateProject from '../buttons/project'
 import AutoSave from '../canvas/autosave'
+import Image from 'next/image'
 
 type TabProps = {
     label: string
@@ -30,7 +30,7 @@ const Navbar = () => {
         {
             label: 'Canvas',
             href: `/dashboard/${me.name}/canvas?project=${projectId}`,
-            icon: <Hash className='h-4 w-4' />
+            icon: <Pen className='h-4 w-4' />
         },
         {
             label: 'Style Guide',
@@ -52,22 +52,30 @@ const Navbar = () => {
         userId: me.id as Id<'users'>
     })
 
+
+
     return (
         <div className='grid grid-cols-2 lg:grid-cols-3 p-6 fixed top-0 left-0 right-0 z-50'>
             <div className='flex items-center gap-4'>
                 <Link
                     href={`/dashboard/${me.name}`}
-                    className='w-8 h-8 rounded-full border-2 border-white bg-black flex items-center justify-center'
+                    className='flex items-center gap-2'
                 >
-                    <div className='w-4 h-4 rounded-full bg-white'></div>
+                    <Image
+                        src="/framix logo.png"
+                        alt="Framix Logo"
+                        width={40}
+                        height={40}
+                        className="object-contain"
+                    />
+                    <span className='text-2xl font-bold'>Framix</span>
                 </Link>
 
-                {!hasCanvas || (
-                    !hasStyleGuide && (
-                        <div className='lg:inline-block hidden rounded-full text-primary/60 border border-white/[0.12] backdrop-blur-xl bg-white/[0.08] px-4 py-2 text-sm saturate-150 '>
-                            Project / {project?.name}
-                        </div>
-                    ))}
+                {!hasCanvas || !hasStyleGuide && (
+                    <div className='lg:inline-block hidden rounded-full text-primary/60 border border-white/[0.12] backdrop-blur-xl bg-white/[0.08] px-4 py-2 text-sm saturate-150 '>
+                        Project / {project?.name}
+                    </div>
+                )}
             </div>
 
             <div className='lg:flex hidden items-center justify-center gap-2'>
@@ -94,22 +102,16 @@ const Navbar = () => {
                 </div>
             </div>
 
-            <div className='flex items-center gap-4 justify-end'>
-                <span className='text-sm text-white/50'>{creditBalance} credits</span>
-                <Button
-                    variant='secondary'
-                    className='rounded-full h-12 w-12 flex items-center justify-center backdrop-blur-xl bg-white/[0.08] border border-white/[0.12] saturate-150 hover:bg-white/[0.12]'
-                >
-                    <CircleQuestionMark className='size-5 text-white' />
-                </Button>
-                <Avatar className='size-12 ml-2'>
+            <div className='flex items-center gap-2 justify-end'>
+                <span className='text-white/50 '>{creditBalance} credits</span>
+                {hasCanvas && <AutoSave />}
+                {!hasCanvas && !hasStyleGuide && <CreateProject />}
+                <Avatar className='size-10 m-1'>
                     <AvatarImage src={me.image || ''} />
                     <AvatarFallback>
                         <User className='size-5 text-black' />
                     </AvatarFallback>
                 </Avatar>
-                {hasCanvas && <AutoSave />}
-                {!hasCanvas && !hasStyleGuide && <CreateProject />}
             </div>
         </div>
     )

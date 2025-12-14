@@ -29,10 +29,10 @@ const ProjectsList = () => {
     }
 
     return (
-        <div className='space-y-8'>
+        <div className='space-y-8 p-12'>
             <div className='flex items-center justify-between'>
                 <div>
-                    <h1 className='text-3xl font-semibold text-foreground'>Your Projects</h1>
+                    <h1 className='text-5xl font-bold text-foreground'>YOUR PROJECTS</h1>
                     <p className='text-muted-foreground mt-2'>Manage your design projects and continue where you left off</p>
                 </div>
             </div>

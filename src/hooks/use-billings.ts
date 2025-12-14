@@ -4,7 +4,8 @@ import { toast } from "sonner"
 
 export const useSubscriptionPlan = () => {
     const [trigger, { isFetching }] = useLazyGetCheckoutQuery()
-    const { id } = useAppSelector((state) => state.profile)
+    const profile = useAppSelector((state) => state.profile)
+    const id = profile?.id
     const onSubscribe = async () => {
         try {
             const res = await trigger(id).unwrap()
